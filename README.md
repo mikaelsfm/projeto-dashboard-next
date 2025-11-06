@@ -26,7 +26,7 @@ A aplicação fornece um painel administrativo com listagem de usuários, cadast
 1. **Clone o repositório**
    ```bash
    git clone https://github.com/mikaelsfm/projeto-dashboard-next.git
-   cd dashboard-app
+   cd projeto-dashboard-app
    cd src
    ```
 

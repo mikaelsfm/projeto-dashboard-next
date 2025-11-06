@@ -29,8 +29,6 @@ services:
       PORT: 3007
     ports:
       - "3007:3007"
-    volumes:
-      - .:/app
     depends_on:
       postgres:
         condition: service_healthy
