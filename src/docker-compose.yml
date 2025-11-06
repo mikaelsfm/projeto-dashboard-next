@@ -1,0 +1,42 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: dashboard-db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: dashboard_db
+    ports:
+      - "5440:5432"
+    networks:
+      - dashboard-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d dashboard_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    container_name: dashboard-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      DATABASE_URL: "postgresql://admin:123456@postgres:5432/dashboard_db"
+      NODE_ENV: development
+      PORT: 3007
+    ports:
+      - "3007:3007"
+    volumes:
+      - .:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - dashboard-net
+
+networks:
+  dashboard-net:
+    driver: bridge
