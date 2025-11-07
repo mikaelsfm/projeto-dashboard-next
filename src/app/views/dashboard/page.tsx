@@ -6,7 +6,12 @@ import { TableSkeleton } from "../../components/skeletons/TableSkeleton";
 import "../../styles/globals.css";
 
 async function getUsers() {
-  const res = await fetch("/api/users", { cache: "no-store" });
+  const url =`${process.env.NEXT_PUBLIC_API_URL}/api/users`;
+  const res = await fetch(`${url}/api/users`, {
+    cache: "no-store",
+  });
+
+  console.log(res)
   if (!res.ok) throw new Error("Erro ao buscar usuários");
   return res.json();
 }
