@@ -9,8 +9,10 @@ type User = {
   phone?: string | null;
   document?: string | null;
   address?: string | null;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string | Date; 
+  updatedAt: string | Date;
+  clients?: any;
+  consultant?: any;
 };
 
 interface UsersTableProps {
@@ -27,7 +29,6 @@ export function UsersTable({ users }: UsersTableProps) {
             "Email",
             "Telefone",
             "CPF",
-            "Idade",
             "Endereço",
             "Criado em",
             "Atualizado em",
@@ -67,7 +68,7 @@ export function UsersTable({ users }: UsersTableProps) {
               className="py-3 px-4 text-gray-400"
               suppressHydrationWarning
             >
-              {new Date(user.createdAt).toLocaleString("pt-BR", {
+              {new Date(user.updatedAt).toLocaleString("pt-BR", {
                 dateStyle: "short",
                 timeStyle: "short",
                 timeZone: "America/Sao_Paulo",

@@ -4,32 +4,21 @@ import { DashboardMetrics } from "../../components/DashboardMetrics";
 import { DashboardFilters } from "../../components/DashboardFilters";
 import { TableSkeleton } from "../../components/skeletons/TableSkeleton";
 import "../../styles/globals.css";
-
-async function getUsers() {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}`;
-  const res = await fetch(`${url}/api/users`, {
-    cache: "no-store",
-  });
-
-  if (!res.ok) throw new Error("Erro ao buscar usuários");
-  return res.json();
-}
+import { getAllUsersWithRelations } from "../../components/actions";
 
 export default async function DashboardPage() {
   try {
-    const users = await getUsers();
-
+    const users = await getAllUsersWithRelations();
     const last7Days = new Date();
     last7Days.setDate(last7Days.getDate() - 7);
 
     const totalUsers = users.filter(
-      (u: any) => new Date(u.createdAt) >= last7Days
+      (user: any) => new Date(user.createdAt) >= last7Days
     ).length;
 
     const consultants = users
-      .filter((u: any) => u.type === "CONSULTANT")
-      .map((u: any) => ({ name: u.name, email: u.email }));
-
+      .filter((user: any) => user.type === "CONSULTANT")
+      .map((user: any) => ({ name: user.name, email: user.email }));
 
     return (
       <main className="min-h-screen bg-neutral-950 text-white p-8 font-sans">
