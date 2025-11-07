@@ -9,7 +9,7 @@ export async function createClient(data: {
   if (!data.name || !data.email || !data.consultantId)
     throw new Error("Dados inválidos.");
 
-  await prisma.client.create({ data });
+  await prisma.user.create({ data });
   revalidatePath("/dashboard");
 }
 
@@ -17,7 +17,7 @@ export async function updateClient(
   id: string,
   data: { name?: string; email?: string; consultantId?: string }
 ) {
-  await prisma.client.update({
+  await prisma.user.update({
     where: { id },
     data,
   });
@@ -25,7 +25,7 @@ export async function updateClient(
 }
 
 export async function deleteClient(id: string) {
-  await prisma.client.delete({ where: { id } });
+  await prisma.user.delete({ where: { id } });
   revalidatePath("/dashboard");
 }
 
