@@ -1,7 +1,9 @@
 #!/bin/sh
-# start.sh
 
-echo "Executando migrations do Prisma..."
+echo "Gerando Prisma Client..."
+npx prisma generate
+
+echo "Executando migrations..."
 npx prisma migrate deploy || npx prisma db push
 
 echo "Populando o banco de dados..."

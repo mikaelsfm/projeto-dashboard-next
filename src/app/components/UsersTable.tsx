@@ -8,7 +8,6 @@ type User = {
   email: string;
   phone?: string | null;
   document?: string | null;
-  age?: number | null;
   address?: string | null;
   createdAt: string;
   updatedAt: string;
@@ -52,7 +51,6 @@ export function UsersTable({ users }: UsersTableProps) {
             <td className="py-3 px-4">{user.email}</td>
             <td className="py-3 px-4">{user.phone ?? "(00) 00000-0000"}</td>
             <td className="py-3 px-4">{user.document ?? "000.000.000-00"}</td>
-            <td className="py-3 px-4">{user.age ? `${user.age} anos` : "—"}</td>
             <td className="py-3 px-4 truncate max-w-[200px]">
               {user.address ?? "—"}
             </td>
