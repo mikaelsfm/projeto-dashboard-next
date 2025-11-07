@@ -1,12 +1,13 @@
-datasource db {
-  provider = "postgresql"
-  url      = "postgresql://admin:123456@postgres:5432/dashboard_db"
+generator client {
+  provider = "prisma-client-js"
 }
 
-generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+datasource db {
+  provider = "postgresql" // Supabase é Postgres
+  url      = env("DATABASE_URL")
 }
+
+// ... seus models (User, Post, etc.) ...
 
 model User {
   id          Int      @id @default(autoincrement())
