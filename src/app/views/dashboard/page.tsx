@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense} from "react";
 import { UsersTable } from "../../components/UsersTable";
 import { DashboardMetrics } from "../../components/DashboardMetrics";
 import { DashboardFilters } from "../../components/DashboardFilters";

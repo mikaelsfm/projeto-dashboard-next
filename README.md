@@ -1,14 +1,8 @@
 # **Dashboard App**
 
-Projeto fullstack desenvolvido com **Next.js**, **Prisma** e **PostgreSQL**, executando em ambiente **Docker**.  
+Projeto fullstack desenvolvido com **Next.js**, **Prisma** e **PostgreSQL**.  
 A aplicação fornece um painel administrativo com listagem de usuários, cadastro e associação entre **consultores** e **clientes**.
 
----
-
-## **Pré-requisitos**
-
-- **Docker** e **Docker Compose** instalados.  
-- Porta **3007** livre (frontend/backend) e **5440** livre (PostgreSQL).
 
 ---
 
@@ -30,27 +24,19 @@ A aplicação fornece um painel administrativo com listagem de usuários, cadast
    cd src
    ```
 
-2. **Suba os containers**
-   ```bash
-   docker-compose up --build
+2. **Acesse a aplicação**
    ```
-
-   O serviço `postgres` será iniciado primeiro.  
-   Quando estiver saudável, o container `web` executará automaticamente:
-   - Migrations do Prisma  
-   - Seed inicial com usuários mock  
-   - Servidor Next.js na porta `3007`
-
-3. **Acesse a aplicação**
+   https://projeto-dashboard-next-gamma.vercel.app
    ```
-   http://localhost:3007
-   ```
-
 ---
 
-## **Scripts úteis**
+3. **Para rodar local**
+   ```bash
+   localhost:3007/
+   ```
 
-Dentro do container `web`, você pode executar:
+
+## **Scripts úteis**
 
 ```bash
 # Aplicar migrations manualmente
@@ -67,35 +53,8 @@ npx prisma studio
 
 ## **Banco de Dados**
 
-Conexão padrão:
+Supabase:
 ```
-postgresql://admin:123456@localhost:5440/dashboard_db
+postgresql://postgres.ngynfyseuzesjojbmxpm:<SENHA_DO_BANCO>@aws-1-us-east-1.pooler.supabase.com:5432/postgres
 ```
-
 ---
-
-## **Estrutura dos serviços (docker-compose.yml)**
-
-- `dashboard-db` → Banco PostgreSQL 16  
-- `dashboard-app` → Aplicação Next.js + Prisma  
-
-Ambos conectados via `dashboard-net` (rede bridge Docker).
-
----
-
-## **Portas**
-
-| Serviço | Porta local | Porta container |
-|----------|--------------|----------------|
-| PostgreSQL | 5440 | 5432 |
-| Web App | 3007 | 3007 |
-
----
-
-## **Fluxo de inicialização**
-
-1. O container do banco sobe e passa no healthcheck.  
-2. O container da aplicação executa o script `start.sh`:  
-   - Executa migrations (`prisma migrate deploy || prisma db push`)  
-   - Executa seed (`prisma db seed`)  
-   - Inicia o servidor (`npm run dev`)

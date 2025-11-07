@@ -21,9 +21,9 @@ interface UsersTableProps {
 
 export function UsersTable({ users }: UsersTableProps) {
   return (
-    <table className="w-full border-collapse text-sm">
+    <table className="w-full border-collapse text-sm border border-neutral-800">
       <thead className="border-b border-neutral-800">
-        <tr>
+        <tr className="bg-neutral-900 h-16">
           {[
             "Nome",
             "Email",

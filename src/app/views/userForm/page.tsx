@@ -4,6 +4,8 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { UserForm } from "../../components/users/userForm";
 import { ArrowLeft } from "lucide-react";
+import { createUser } from "../../components/actions";
+import { UserType } from "@prisma/client";
 
 interface User {
   name: string;
@@ -13,31 +15,40 @@ interface User {
   address?: string;
   type?: string;
   consultantId?: string;
-  zipcode?: string;
-  complement?: string;
-  state?: string;
+  clientIds?: number[];
 }
 
 export default function CreateUserPage() {
   const router = useRouter();
 
-  const handleSaveUser = async (user: User) => {
+  const handleSaveUser = async (payloadFromForm: {
+    name: string;
+    email: string;
+    phone: string;
+    document: string;
+    address: string;
+    type: string;
+    consultantId?: string;
+    clientIds?: number[];
+  }) => {
+
+    const actionPayload = {
+      ...payloadFromForm,
+      type: payloadFromForm.type === "consultant"
+        ? UserType.CONSULTANT
+        : UserType.CLIENT,
+    };
+
     try {
-      const res = await fetch("/api/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user),
-      });
+      const newUser = await createUser(actionPayload);
 
-      if (!res.ok) throw new Error("Erro ao criar usuário");
-
-      const data = await res.json();
-      console.log("Usuário criado:", data);
+      console.log("Usuário criado:", newUser);
       alert("Usuário criado com sucesso!");
       router.back();
-    } catch (err) {
+
+    } catch (err: any) {
       console.error(err);
-      alert("Erro ao criar usuário");
+      alert(`Erro ao criar usuário: ${err.message}`);
     }
   };
 
