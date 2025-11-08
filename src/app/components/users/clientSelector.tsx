@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { getAllUsersWithRelations } from "../../components/actions";
 
 interface Client {
   id: number;
@@ -19,9 +20,9 @@ export function ClientSelector({ onSelect }: ClientSelectorProps) {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const res = await fetch("/api/users?type=CLIENT");
-        const data = await res.json();
-        setClients(data);
+        const users = await getAllUsersWithRelations();
+        const clientOnlyList = users.filter((user: any) => user.type === "CLIENT");
+        setClients(clientOnlyList);
       } catch (err) {
         console.error("Erro ao buscar clientes:", err);
       }
@@ -39,7 +40,7 @@ export function ClientSelector({ onSelect }: ClientSelectorProps) {
   };
 
   const handleRemove = (id: number) => {
-    const updated = selectedClients.filter((cid) => cid !== id);
+    const updated = selectedClients.filter((clientId) => clientId !== id);
     setSelectedClients(updated);
     onSelect(updated);
   };
